@@ -2,6 +2,7 @@ package com.syncapi.sync_api.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -40,6 +41,38 @@ public class ItemRepository {
         
     }
 
+    //Inserta un nou item a la base de dades
+    public int insertItem(Item item){
+        String sql = """
+                INSERT INTO items(titulo, description, puntuacion, favoritos, categoria) VALUES (?,?,?,?,?);
+                """;
+
+        return jdbcTemplate.update(sql,
+            item.getTitulo(),
+            item.getDescription(),
+            item.getPuntuacion(),
+            item.isFavoritos(),
+            item.getCategoria()
     
+        );
+    }
+
+    //Devuelve un item segun el id
+    public Item findById(Long id){
+        String sql = "SELECT * FROM items WHERE id = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new ItemRowMapper(), id);
+        } catch (Exception e) {
+            return null;
+        }
+        
+    }
+
+    //Devuelve una lista con todos los items
+    public List<Item> findAll(){
+        String sql = "SELECT * FROM items";
+        return jdbcTemplate.query(sql, new ItemRowMapper());
+    }
+
 
 }
