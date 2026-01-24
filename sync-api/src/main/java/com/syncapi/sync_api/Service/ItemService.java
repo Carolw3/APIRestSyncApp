@@ -1,7 +1,6 @@
 package com.syncapi.sync_api.Service;
 
 import java.io.IOException;
-
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,10 +25,8 @@ public class ItemService {
     ItemLog itemLog;
 
     @Autowired
-
     ItemRepository itemRepository;
-
-    //Penja un nou item
+    //Sube un nuevo item
     public int insertItem(Item item) throws IOException {
 
         itemLog.info(
@@ -52,7 +49,7 @@ public class ItemService {
         return result;
     }
     
-    //Devuelve todos los usuarios
+    //Devuelve todos los items
     public List<Item>findAll() throws IOException {
         List<Item> llista = itemRepository.findAll();
 
@@ -74,7 +71,8 @@ public class ItemService {
     //Busca el item por la id
     public Item findById(Long id) throws IOException {
 
-        Item item = itemRepository.findById(id);
+        List<Item> items = itemRepository.findById(id);
+        Item item = items.get(0);
         if(item == null){
             itemLog.error(
                 "ItemService",
@@ -89,7 +87,6 @@ public class ItemService {
 
         return item;
     }
-    ItemRepository itemRespository;
 
     // capa de service para actualizar un item mediante una id
     public int updatePerId(Long id) throws IOException{
@@ -103,37 +100,38 @@ public class ItemService {
 
         return 1;
     }
-    ////ajshdlahwdajsldjasd
+
     // Capa de service para poder borrar un item mediante un id que nos pase el Controller
     public int deleteOneItem(Long id){
         return 1;
     }
     
+    //Para subir la ruta de una imagen
     public String uploadImage(long item_id, MultipartFile imageFile) throws IOException {
-        List<Item> item = itemRespository.findById(item_id);
+        List<Item> item = itemRepository.findById(item_id);
         itemLog.info("ItemService", "uploadImage", "Afegint la imatge " + imageFile.getName() + " per el item con la id: " + item_id);
         if (item.isEmpty()) {
             itemLog.error("ItemService", "uploadImage", "Item amb id " + item_id + " no existeix");
             return null;
         }
         try{
-            // creamos el path donde queremos que cree la carpeta 
+            // creamos el path donde queremos que cree la carpeta
             Path imageDir = Paths.get("private/images");
-            // Comprobamos que exista 
+            // Comprobamos que exista
             if (!Files.exists(imageDir)) {
                 Files.createDirectories(imageDir);
             }
-            // Creamos un nombre distinto para cada imagen 
+            // Creamos un nombre distinto para cada imagen
             String filename = "item_" + item_id + "_" + imageFile.getOriginalFilename();
             Path destination = imageDir.resolve(filename);
-            // hacemos el nio2 el inputstream es para recuperar el binario de la imagen 
+            // hacemos el nio2 el inputstream es para recuperar el binario de la imagen
             InputStream inputStream = imageFile.getInputStream();
             
             Files.copy(inputStream, destination, StandardCopyOption.REPLACE_EXISTING);
             
             // creamos una ruta relativa para guardar en la base de datos
             String relativePath = "images/" + filename;
-            itemRespository.uploadImage(item_id, relativePath);
+            itemRepository.uploadImage(item_id, relativePath);
 
             itemLog.info("ItemService", "uploadImage", "La imatge s'ha guardat correctament. El path és: /private/" + relativePath);
             return "/private/" + relativePath;

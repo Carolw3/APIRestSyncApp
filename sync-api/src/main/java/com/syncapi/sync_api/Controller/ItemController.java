@@ -31,7 +31,7 @@ public class ItemController {
     ItemService itemService;
 
 
-    //Penja un nou item
+    //Sube un nuevo item
     @PostMapping("/item")
     public ResponseEntity<String> addUser(@RequestBody Item item) throws IOException {
         int result = itemService.insertItem(item);
@@ -44,7 +44,7 @@ public class ItemController {
         
     }
 
-    //Retorna una llista amb tots els items
+    //Devuelve una lista de todos los items
     @GetMapping("/items")
     public ResponseEntity<List<Item>>getItem() throws IOException {
         List<Item> llista = itemService.findAll();
@@ -72,10 +72,10 @@ public class ItemController {
 
     }
 
-    // Endpoint para poder buscar un item mediante la id
+    // Endpoint para poder actualizar un item mediante la id
     @PatchMapping("/item/{id}")
     public ResponseEntity<String> updatePorId(@PathVariable long id){
-        // llamada a servide
+        // llamada a service
 
         // if par deolver un reponseEntity
         
@@ -95,7 +95,7 @@ public class ItemController {
         return null;
     }
 
-    // Endpoint para subir una imagen, lo que guadaremos en la base de datos no es la imagen en si guardaremos una ruta donde esi esta alojada esas imagenes
+    // Endpoint para subir una imagen, lo que guadaremos en la base de datos no es la imagen en si guardaremos una ruta donde estaran alojadas esas imagenes
     @PostMapping("/item/{id}/image")
     public String postImage(@PathVariable long id, @RequestParam MultipartFile image) {
         

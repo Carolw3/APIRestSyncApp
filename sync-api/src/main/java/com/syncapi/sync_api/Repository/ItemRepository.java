@@ -58,10 +58,10 @@ public class ItemRepository {
     }
 
     //Devuelve un item segun el id
-    public Item findById(Long id){
+    public List<Item> findById(Long id){
         String sql = "SELECT * FROM items WHERE id = ?";
         try {
-            return jdbcTemplate.queryForObject(sql, new ItemRowMapper(), id);
+            return jdbcTemplate.query(sql, new ItemRowMapper(), id);
         } catch (Exception e) {
             return null;
         }
