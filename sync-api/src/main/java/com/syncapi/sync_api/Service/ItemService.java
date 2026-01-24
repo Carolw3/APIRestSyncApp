@@ -42,7 +42,7 @@ public class ItemService {
     public int deleteOneItem(Long id){
         return 1;
     }
-    /* 
+    
     public String uploadImage(long item_id, MultipartFile imageFile) throws IOException {
         List<Item> item = itemRespository.findById(item_id);
         itemLog.info("ItemService", "uploadImage", "Afegint la imatge " + imageFile.getName() + " per el item con la id: " + item_id);
@@ -77,5 +77,4 @@ public class ItemService {
         return null;
     }
 
-    */
 }
