@@ -74,5 +74,10 @@ public class ItemRepository {
         return jdbcTemplate.query(sql, new ItemRowMapper());
     }
 
+    public int uploadImage(long id, String pathruta){
+        String sql = "UPDATE items SET imagen_doc = ? WHERE id=?";
+        return jdbcTemplate.update(sql, pathruta, id);
+    }
+
 
 }
