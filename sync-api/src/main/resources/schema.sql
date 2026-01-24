@@ -1,4 +1,4 @@
-CREATE TABLE sync_item (
+CREATE TABLE IF NOT EXISTS items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(255) NOT NULL,
     description TEXT,
