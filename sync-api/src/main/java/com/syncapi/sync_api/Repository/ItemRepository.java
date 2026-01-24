@@ -41,5 +41,9 @@ public class ItemRepository {
     }
 
     
+    public int uploadImage(long id, String pathruta){
+        String sql = "UPDATE users SET pathruta = ? WHERE id=?";
+        return jdbcTemplate.update(sql, pathruta, id);
+    }
 
 }
