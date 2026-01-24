@@ -1,0 +1,73 @@
+package com.syncapi.sync_api.Log;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class ItemLog {
+    private final String logDirectory = "logs/";
+
+    public ItemLog() {
+
+    }
+    
+    public void error(String clase, String metodo, String resultado) throws IOException{
+        // Escribir en el fichero un error
+        LocalDateTime hoy = LocalDateTime.now();
+
+        int year = hoy.getYear();
+        int mes = hoy.getMonthValue();
+        int day = hoy.getDayOfMonth();
+
+        LocalTime ahora = LocalTime.now();
+
+        String fechaHoy = "" + year + "-" + mes + "-" + day;
+
+        if(!Files.exists(Paths.get(logDirectory))){
+            Files.createDirectories(Paths.get(logDirectory));
+        }
+
+        Path path = Paths.get(logDirectory+"aplicacio-"+year+"-"+mes+"-"+day+".log");
+
+        try(var writer = Files.newBufferedWriter(path, StandardOpenOption.CREATE, StandardOpenOption.APPEND)){
+            writer.write("[" + fechaHoy +  " " + ahora.getHour() + ":" + ahora.getMinute() + ":" +  ahora.getSecond() + "] ERROR - " + clase + " - " + metodo + " - " + resultado);
+            writer.newLine();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void info(String clase, String metodo, String resultado) throws IOException{
+        // Escribir en el fichero un info
+        // Escribir en el fichero un error
+        LocalDateTime hoy = LocalDateTime.now();
+
+        int year = hoy.getYear();
+        int mes = hoy.getMonthValue();
+        int day = hoy.getDayOfMonth();
+
+        LocalTime ahora = LocalTime.now();
+
+        String fechaHoy = "" + year + "-" + mes + "-" + day;
+
+        if(!Files.exists(Paths.get(logDirectory))){
+            Files.createDirectories(Paths.get(logDirectory));
+        }
+
+        Path path = Paths.get(logDirectory+"aplicacio-"+year+"-"+mes+"-"+day+".log");
+
+        try(var writer = Files.newBufferedWriter(path, StandardOpenOption.CREATE, StandardOpenOption.APPEND)){
+            writer.write("[" + fechaHoy +  " " + ahora.getHour() + ":" + ahora.getMinute() + ":" +  ahora.getSecond() + "] INFO - " + clase + " - " + metodo + " - " + resultado);
+            writer.newLine();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+}
