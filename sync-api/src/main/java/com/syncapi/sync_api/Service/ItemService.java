@@ -96,14 +96,14 @@ public class ItemService {
 
         itemLog.info("ItemService", "UpdatePerId", "Actualizando item por id " + id);
         return 1;
-    } 
+    }
 
     // capa de servie para poder borrar todos los elementos de item
     public int deleteAllItems(){
 
         return 1;
     }
-
+    ////ajshdlahwdajsldjasd
     // Capa de service para poder borrar un item mediante un id que nos pase el Controller
     public int deleteOneItem(Long id){
         return 1;
