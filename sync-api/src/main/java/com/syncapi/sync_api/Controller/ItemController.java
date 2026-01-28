@@ -73,33 +73,61 @@ public class ItemController {
     }
 
     // Endpoint para poder actualizar un item mediante la id
-    @PatchMapping("/item/{id}")
-    public ResponseEntity<String> updatePorId(@PathVariable long id){
-        // llamada a service
-
-        // if par deolver un reponseEntity
-        
-
-        return null;
+    @PatchMapping("/item/{id}/titulo")
+    public ResponseEntity<String> updatePorIdTitulo(@PathVariable long id, @RequestBody String titulo) throws IOException{
+        int resultado = itemService.updatePerIdTitulo(id, titulo);
+        // Depende del resultado respondemos con un entity u otro
+        if(resultado > 0){
+            return ResponseEntity.status(HttpStatus.OK).body("Item con id " + id + " actualizado correctamente.");
+        }else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el item con id " + id + ".");
+        }
+    }
+    @PatchMapping("/item/{id}/descripcion")
+    public ResponseEntity<String> updatePorIdDescripcion(@PathVariable long id, @RequestBody String descripcion) throws IOException{
+        int resultado = itemService.updatePerIdDescripcion(id, descripcion);
+        // Depende del resultado respondemos con un entity u otro
+        if(resultado > 0){
+            return ResponseEntity.status(HttpStatus.OK).body("Item con id " + id + " actualizado correctamente.");
+        }else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el item con id " + id + ".");
+        }
     }
 
     // Endpoint para borrar todos los items
     @DeleteMapping("/items")
-    public ResponseEntity<String> deleteAllItems(){
-        return null;
+    public ResponseEntity<String> deleteAllItems() throws IOException{
+        int resulado = itemService.deleteAllItems();
+        
+        if(resulado > 0){
+            return ResponseEntity.status(HttpStatus.OK).body("Se han eliminado todos los items correctamente");
+        }else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se han eliminado todos los items correctamente");
+        }
     }
 
     // Endpoint para borrar un item mediante la id
     @DeleteMapping("/item/{id}")
-    public ResponseEntity<String> deleteOneItem(@PathVariable long id){
-        return null;
+    public ResponseEntity<String> deleteOneItem(@PathVariable long id) throws IOException{
+        int resultado = itemService.deleteItemPerId(id);
+
+        if(resultado > 0){
+            return ResponseEntity.status(HttpStatus.OK).body("Item con id " + id + " eliminado correctamente.");
+        }else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el item con id " + id + ".");
+        }
     }
 
     // Endpoint para subir una imagen, lo que guadaremos en la base de datos no es la imagen en si guardaremos una ruta donde estaran alojadas esas imagenes
     @PostMapping("/item/{id}/image")
-    public String postImage(@PathVariable long id, @RequestParam MultipartFile image) {
-        
-        return null;
+    public ResponseEntity<String> postImage(@PathVariable long id, @RequestParam MultipartFile image)throws IOException {
+        String resultado = itemService.uploadImage(id, image);
+
+        if(resultado != null){
+            return ResponseEntity.status(HttpStatus.OK).body("La imagen se ha subido correctamente");
+        }else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se ha podido subir la imagen");
+        }
     }
-    
+
 }

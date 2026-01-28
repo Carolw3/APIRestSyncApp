@@ -89,21 +89,53 @@ public class ItemService {
     }
 
     // capa de service para actualizar un item mediante una id
-    public int updatePerId(Long id) throws IOException{
+    public int updatePerIdTitulo(Long id, String titulo) throws IOException{
 
-        itemLog.info("ItemService", "UpdatePerId", "Actualizando item por id " + id);
-        return 1;
+        int resultado = itemRepository.updatePerIdTitulo(id, titulo);
+
+        if(resultado > 0){
+            itemLog.info("ItemService", "UpdatePerId", "Item con id " + id + " actualizado correctamente.");
+        }else{
+            itemLog.error("ItemService", "UpdatePerId", "Error al actualizar el item con id " + id + ".");
+        }
+        return resultado;
+    }
+
+    public int updatePerIdDescripcion(Long id, String descripcion) throws IOException{
+
+        int resultado = itemRepository.updatePerIdDescripcion(id, descripcion);
+        if(resultado > 0){
+            itemLog.info("ItemService", "UpdatePerId", "Item con id " + id + " actualizado correctamente la descripción.");
+        }else{
+            itemLog.error("ItemService", "UpdatePerId", "Error al actualizar el item con id " + id + ".");
+        }
+        return resultado;
     }
 
     // capa de servie para poder borrar todos los elementos de item
-    public int deleteAllItems(){
+    public int deleteAllItems() throws IOException{
+        int resultado = itemRepository.deleteAllItems();
 
-        return 1;
+        if(resultado > 0){
+            itemLog.info("ItemService", "deleteAllItems", "Se han eliminado todos los items correctamente");
+        }else{
+            itemLog.error("ItemService", "deleteAllItems", "No se han eliminado todos los items correctamente");
+        }
+
+        return resultado;
     }
 
     // Capa de service para poder borrar un item mediante un id que nos pase el Controller
-    public int deleteOneItem(Long id){
-        return 1;
+    public int deleteItemPerId(Long id) throws IOException{
+        int resulado = itemRepository.deleteItemPerId(id);
+        
+        if(resulado > 0){
+            itemLog.info("ItemService", "deleteOneItem", "Item con id " + id + " eliminado correctamente.");
+        }else{
+            itemLog.error("ItemService", "deleteOneItem", "Error al eliminar el item con id " + id + ".");
+        }
+
+        return resulado;
     }
     
     //Para subir la ruta de una imagen

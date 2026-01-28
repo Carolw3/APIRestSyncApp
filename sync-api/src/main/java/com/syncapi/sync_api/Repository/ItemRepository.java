@@ -79,5 +79,26 @@ public class ItemRepository {
         return jdbcTemplate.update(sql, pathruta, id);
     }
 
+    // Capa para borrar todos los items
+    public int deleteAllItems(){
+        String sql = "DELETE FROM items";
+        return jdbcTemplate.update(sql);
+    }
+
+    // Capa para borrar un item mediante un id
+    public int deleteItemPerId(Long id){    
+        String sql = "DELETE FROM items WHERE id = ?";
+        return jdbcTemplate.update(sql, id);
+    }
+
+    public int updatePerIdTitulo(Long id, String titulo){
+        String sql = "UPDATE items SET titulo = ? WHERE id = ?";
+        return jdbcTemplate.update(sql, titulo, id);
+    }
+
+    public int updatePerIdDescripcion(Long id , String description){
+        String sql = "UPDATE items SET description = ? WHERE id = ?";
+        return jdbcTemplate.update(sql, description, id);
+    }
 
 }
