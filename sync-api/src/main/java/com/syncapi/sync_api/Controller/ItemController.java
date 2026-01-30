@@ -57,7 +57,7 @@ public class ItemController {
     }
 
     //Devuelve el item por la id
-    @GetMapping("/items/{id}") // Per exemple: --> http://localhost:8081/api/items/2 <--
+    @GetMapping("/item/{id}") // Per exemple: --> http://localhost:8081/api/items/2 <--
     public ResponseEntity<Item> getUserById(@PathVariable Long id) throws IOException {
         
         Item item = itemService.findById(id); //Busca el item por la id
@@ -74,7 +74,7 @@ public class ItemController {
 
     // Endpoint para poder actualizar un item mediante la id
     @PatchMapping("/item/{id}/titulo")
-    public ResponseEntity<String> updatePorIdTitulo(@PathVariable long id, @RequestBody String titulo) throws IOException{
+    public ResponseEntity<String> updatePorIdTitulo(@PathVariable long id, @RequestParam String titulo) throws IOException{
         int resultado = itemService.updatePerIdTitulo(id, titulo);
         // Depende del resultado respondemos con un entity u otro
         if(resultado > 0){
@@ -84,7 +84,7 @@ public class ItemController {
         }
     }
     @PatchMapping("/item/{id}/descripcion")
-    public ResponseEntity<String> updatePorIdDescripcion(@PathVariable long id, @RequestBody String descripcion) throws IOException{
+    public ResponseEntity<String> updatePorIdDescripcion(@PathVariable long id, @RequestParam String descripcion) throws IOException{
         int resultado = itemService.updatePerIdDescripcion(id, descripcion);
         // Depende del resultado respondemos con un entity u otro
         if(resultado > 0){
