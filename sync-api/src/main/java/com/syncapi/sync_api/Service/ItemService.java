@@ -1,11 +1,14 @@
 package com.syncapi.sync_api.Service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -171,6 +174,60 @@ public class ItemService {
             e.printStackTrace();
     }
         return null;
+    }
+
+
+    // Ingreso multiple de items por csv
+    public String insertCsv(MultipartFile csv) throws Exception {
+
+        itemLog.info(
+                "ItemService",
+                "insertCsv",
+                "Cargando la informacion del fichero: " + csv.getOriginalFilename());
+
+        int contaItemsIngresats = 0;
+        int contaItemsDescartats = 0;
+        List<String> errorList = new ArrayList<>();
+
+        int itemResponse;
+
+        try(BufferedReader input = new BufferedReader(new InputStreamReader(csv.getInputStream()))){
+            int contaLineas = 0;
+            
+            while(contaLineas > -1){
+                String linea = input.readLine();
+                contaLineas++;
+                if (linea == null){ contaLineas = -1; continue; }
+                if(contaLineas == 1){ continue;} //Salta la primera linea que es la capçelera
+                String[] info = linea.split(",");
+                if(info.length != 4 ){
+                    contaItemsDescartats ++;
+                    errorList.add(info[0]);
+                    continue;
+                }
+                int puntuacion = Integer.parseInt(info[2]);
+                boolean favoritos = false;
+                if (info[3].equals("true")){favoritos = true;}
+                Item item = new Item(info[0],info[1],puntuacion ,favoritos , info[4]);
+                itemRepository.insertItem(item);
+                contaItemsIngresats++;
+            }
+        }
+        if(contaItemsIngresats > 0){
+            itemLog.info("ItemService",
+                "insertCsv",
+                "Se han guardado correctamente " +contaItemsIngresats+ " registros y han dado error "+contaItemsDescartats+" registros.");
+
+        return "Se han ingresado correctamente " + contaItemsIngresats + " items.\n" +
+                "Se han producido " + contaItemsDescartats + " errores:\n" +
+                errorList;
+        }
+        itemLog.error(
+                "ItemService",
+                "insertCsv",
+                "Error en la linea "+ errorList + " del fitchero. Mensage de error: " + ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor") );
+            return null;
+
     }
 
 }
