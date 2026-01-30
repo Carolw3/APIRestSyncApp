@@ -1,0 +1,31 @@
+[2026-1-30 18:48:12] INFO - ItemService - insertItem - Creant un item.
+[2026-1-30 19:6:53] INFO - ItemService - insertItem - Creant un item.
+[2026-1-30 19:6:53] INFO - ItemService - insertItem - Usuari creat correctament
+[2026-1-30 19:10:19] INFO - ItemService - insertItem - Creant un item.
+[2026-1-30 19:10:19] INFO - ItemService - insertItem - Usuari creat correctament
+[2026-1-30 19:10:21] INFO - ItemService - insertItem - Creant un item.
+[2026-1-30 19:10:21] INFO - ItemService - insertItem - Usuari creat correctament
+[2026-1-30 19:10:22] INFO - ItemService - insertItem - Creant un item.
+[2026-1-30 19:10:22] INFO - ItemService - insertItem - Usuari creat correctament
+[2026-1-30 19:10:28] INFO - ItemService - findAll - Consultando todos los items.
+[2026-1-30 19:10:28] INFO - ItemService - findAll - Consultando todos los items.
+[2026-1-30 19:10:45] INFO - ItemService - findById - Consultando el item con id: 2
+[2026-1-30 19:12:10] INFO - ItemService - UpdatePerId - Item con id 2 actualizado correctamente.
+[2026-1-30 19:12:18] INFO - ItemService - findById - Consultando el item con id: 2
+[2026-1-30 19:13:31] INFO - ItemService - UpdatePerId - Item con id 2 actualizado correctamente.
+[2026-1-30 19:13:37] INFO - ItemService - findById - Consultando el item con id: 2
+[2026-1-30 19:14:1] INFO - ItemService - deleteAllItems - Se han eliminado todos los items correctamente
+[2026-1-30 19:14:5] ERROR - ItemService - findAll - No hay items registrados
+[2026-1-30 19:14:23] INFO - ItemService - insertItem - Creant un item.
+[2026-1-30 19:14:23] INFO - ItemService - insertItem - Usuari creat correctament
+[2026-1-30 19:14:58] INFO - ItemService - insertItem - Creant un item.
+[2026-1-30 19:14:58] INFO - ItemService - insertItem - Usuari creat correctament
+[2026-1-30 19:14:59] INFO - ItemService - insertItem - Creant un item.
+[2026-1-30 19:14:59] INFO - ItemService - insertItem - Usuari creat correctament
+[2026-1-30 19:15:11] INFO - ItemService - findAll - Consultando todos los items.
+[2026-1-30 19:15:11] INFO - ItemService - findAll - Consultando todos los items.
+[2026-1-30 19:15:26] INFO - ItemService - deleteOneItem - Item con id 5 eliminado correctamente.
+[2026-1-30 19:15:35] INFO - ItemService - findAll - Consultando todos los items.
+[2026-1-30 19:15:35] INFO - ItemService - findAll - Consultando todos los items.
+[2026-1-30 19:16:37] INFO - ItemService - uploadImage - Afegint la imatge image per el item con la id: 6
+[2026-1-30 19:16:37] INFO - ItemService - uploadImage - La imatge s'ha guardat correctament. El path és: /private/images/item_6_Loro.jpg
