@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.syncapi.sync_api.DTO.ItemRequestDTO;
 import com.syncapi.sync_api.Log.ItemLog;
 import com.syncapi.sync_api.Model.Item;
 import com.syncapi.sync_api.Repository.ItemRepository;
@@ -53,8 +54,8 @@ public class ItemService {
     }
     
     //Devuelve todos los items
-    public List<Item>findAll() throws IOException {
-        List<Item> llista = itemRepository.findAll();
+    public List<ItemRequestDTO>findAll() throws IOException {
+        List<ItemRequestDTO> llista = itemRepository.findAll();
 
         if(llista.size() < 1){
             itemLog.error(
@@ -72,10 +73,10 @@ public class ItemService {
     }
 
     //Busca el item por la id
-    public Item findById(Long id) throws IOException {
+    public ItemRequestDTO findById(Long id) throws IOException {
 
-        List<Item> items = itemRepository.findById(id);
-        Item item = items.get(0);
+        List<ItemRequestDTO> items = itemRepository.findById(id);
+        ItemRequestDTO item = items.get(0);
         if(item == null){
             itemLog.error(
                 "ItemService",
@@ -143,7 +144,7 @@ public class ItemService {
     
     //Para subir la ruta de una imagen
     public String uploadImage(long item_id, MultipartFile imageFile) throws IOException {
-        List<Item> item = itemRepository.findById(item_id);
+        List<ItemRequestDTO> item = itemRepository.findById(item_id);
         itemLog.info("ItemService", "uploadImage", "Afegint la imatge " + imageFile.getName() + " per el item con la id: " + item_id);
         if (item.isEmpty()) {
             itemLog.error("ItemService", "uploadImage", "Item amb id " + item_id + " no existeix");

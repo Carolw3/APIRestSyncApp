@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.syncapi.sync_api.DTO.ItemRequestDTO;
 import com.syncapi.sync_api.Model.Item;
 import com.syncapi.sync_api.Service.ItemService;
 
@@ -46,8 +47,8 @@ public class ItemController {
 
     //Devuelve una lista de todos los items
     @GetMapping("/items")
-    public ResponseEntity<List<Item>>getItem() throws IOException {
-        List<Item> llista = itemService.findAll();
+    public ResponseEntity<List<ItemRequestDTO>>getItem() throws IOException {
+        List<ItemRequestDTO> llista = itemService.findAll();
         if (llista.isEmpty()) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }else{
@@ -58,9 +59,9 @@ public class ItemController {
 
     //Devuelve el item por la id
     @GetMapping("/item/{id}") // Per exemple: --> http://localhost:8081/api/items/2 <--
-    public ResponseEntity<Item> getUserById(@PathVariable Long id) throws IOException {
+    public ResponseEntity<ItemRequestDTO> getUserById(@PathVariable Long id) throws IOException {
         
-        Item item = itemService.findById(id); //Busca el item por la id
+        ItemRequestDTO item = itemService.findById(id); //Busca el item por la id
 
         if (item != null){   //Comprueba si el titem existe
             

@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
+import com.syncapi.sync_api.DTO.ItemRequestDTO;
+import com.syncapi.sync_api.DTO.ItemResponseDTO;
 import com.syncapi.sync_api.Log.ItemLog;
 import com.syncapi.sync_api.Model.Item;
 
@@ -22,21 +26,22 @@ public class ItemRepository {
     @Autowired
     ItemLog itemLog;
 
-    private static final class ItemRowMapper implements RowMapper<Item>{
+    private static final class ItemRowMapper implements RowMapper<ItemRequestDTO>{
 
         @Override
-        public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Item item = new Item();
-            item.setId(rs.getLong("id"));
-            item.setTitulo(rs.getString("titulo"));
-            item.setDescription(rs.getString("description"));
-            item.setPuntuacion(rs.getInt("puntuacion"));
-            item.setFavoritos(rs.getBoolean("favoritos"));
-            item.setImagen_doc(rs.getString("imagen_doc"));
-            item.setImagen_per(rs.getString("imagen_per"));
-            item.setCategoria(rs.getString("categoria"));
-
-            return item;
+        public ItemRequestDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+            ItemRequestDTO itemReDTO = new ItemRequestDTO();
+            itemReDTO.setId(rs.getLong("id"));
+            itemReDTO.setIdUser(rs.getLong("idUser"));
+            itemReDTO.setTitulo(rs.getString("titulo"));
+            itemReDTO.setDescription(rs.getString("description"));
+            itemReDTO.setPuntuacion(rs.getInt("puntuacion"));
+            itemReDTO.setFavoritos(rs.getBoolean("favoritos"));
+            itemReDTO.setImagen_doc(rs.getString("imagen_doc"));
+            itemReDTO.setImagen_per(rs.getString("imagen_per"));
+            itemReDTO.setCategoria(rs.getString("categoria"));
+            
+            return itemReDTO;
         }
         
     }
@@ -44,21 +49,26 @@ public class ItemRepository {
     //Inserta un nou item a la base de dades
     public int insertItem(Item item){
         String sql = """
-                INSERT INTO items(titulo, description, puntuacion, favoritos, categoria) VALUES (?,?,?,?,?);
+                INSERT INTO items(idUser, titulo, description, puntuacion, favoritos, categoria, onCreated, onUpdate) VALUES (?,?,?,?,?,?,?,?);
                 """;
 
+        LocalDateTime now = LocalDateTime.now();
+        Timestamp timestamp = Timestamp.valueOf(now);
         return jdbcTemplate.update(sql,
+            item.getIdUser(),
             item.getTitulo(),
             item.getDescription(),
             item.getPuntuacion(),
             item.isFavoritos(),
-            item.getCategoria()
+            item.getCategoria(),
+            timestamp,
+            timestamp
     
         );
     }
 
     //Devuelve un item segun el id
-    public List<Item> findById(Long id){
+    public List<ItemRequestDTO> findById(Long id){
         String sql = "SELECT * FROM items WHERE id = ?";
         try {
             return jdbcTemplate.query(sql, new ItemRowMapper(), id);
@@ -69,7 +79,7 @@ public class ItemRepository {
     }
 
     //Devuelve una lista con todos los items
-    public List<Item> findAll(){
+    public List<ItemRequestDTO> findAll(){
         String sql = "SELECT * FROM items";
         return jdbcTemplate.query(sql, new ItemRowMapper());
     }
