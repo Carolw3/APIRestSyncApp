@@ -1,5 +1,3 @@
-DROP TABLE items;
-
 CREATE TABLE IF NOT EXISTS items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     idUser INT,

@@ -57,7 +57,7 @@ public class ItemController {
     
     }
 
-    //Devuelve el item por la id
+    //Devuelve el item por la id    
     @GetMapping("/item/{id}") // Per exemple: --> http://localhost:8081/api/items/2 <--
     public ResponseEntity<Item> getUserById(@PathVariable Long id) throws IOException {
         
