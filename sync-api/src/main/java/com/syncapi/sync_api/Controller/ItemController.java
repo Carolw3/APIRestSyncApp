@@ -48,7 +48,7 @@ public class ItemController {
     //Devuelve una lista de todos los items
     @GetMapping("/items")
     public ResponseEntity<List<Item>>getItem() throws IOException {
-        List<ItemRequestDTO> llista = itemService.findAll();
+        List<Item> llista = itemService.findAll();
         if (llista.isEmpty()) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }else{
@@ -61,7 +61,7 @@ public class ItemController {
     @GetMapping("/item/{id}") // Per exemple: --> http://localhost:8081/api/items/2 <--
     public ResponseEntity<Item> getUserById(@PathVariable Long id) throws IOException {
         
-        ItemRequestDTO item = itemService.findById(id); //Busca el item por la id
+        Item item = itemService.findById(id); //Busca el item por la id
 
         if (item != null){   //Comprueba si el titem existe
             
