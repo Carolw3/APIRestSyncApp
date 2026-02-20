@@ -109,4 +109,9 @@ public class ItemRepository {
         return jdbcTemplate.update(sql, description, id);
     }
 
+    public List<Item> ordenAlfa(){
+        String sql = "SELECT * FROM items ORDER BY titulo ASC";
+        return jdbcTemplate.query(sql, new ItemRowMapper());
+    }
+
 }

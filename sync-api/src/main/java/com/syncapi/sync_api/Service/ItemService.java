@@ -71,6 +71,24 @@ public class ItemService {
         return llista;
     }
 
+    public List<Item> ordenAlfa() throws IOException{
+        List<Item> llista = itemRepository.ordenAlfa();
+
+        if(llista.size() < 1){
+            itemLog.error(
+                "ItemService",
+                "ordenAlfa",
+                "No hay items registrados");
+        }else{
+            itemLog.info(
+                "ItemService",
+                "ordenAlfa",
+                "Consultando todos los items de manera alfabetica." );
+        }
+
+        return llista;
+    }
+
     //Busca el item por la id
     public Item findById(Long id) throws IOException {
 

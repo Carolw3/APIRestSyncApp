@@ -34,7 +34,7 @@ public class ItemController {
 
     //Sube un nuevo item
     @PostMapping("/item")
-    public ResponseEntity<String> addUser(@RequestBody Item item) throws IOException {
+    public ResponseEntity<String> addItem(@RequestBody Item item) throws IOException {
         int result = itemService.insertItem(item);
 
         if(result > 0 ){
@@ -47,7 +47,7 @@ public class ItemController {
 
     //Devuelve una lista de todos los items
     @GetMapping("/items")
-    public ResponseEntity<List<Item>>getItem() throws IOException {
+    public ResponseEntity<List<Item>>getItems() throws IOException {
         List<Item> llista = itemService.findAll();
         if (llista.isEmpty()) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -128,6 +128,17 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.OK).body("La imagen se ha subido correctamente");
         }else{
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se ha podido subir la imagen");
+        }
+    }
+
+    //Endpoint para ordenar de manera alfabetica
+    @GetMapping("/items/ordenAlfa")
+    public ResponseEntity<List<Item>> ordenAlfa() throws Exception{
+        List<Item> llista = itemService.ordenAlfa();
+        if (llista.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }else{
+            return ResponseEntity.status(HttpStatus.OK).body(llista);
         }
     }
 
