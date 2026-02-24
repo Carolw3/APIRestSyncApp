@@ -32,7 +32,7 @@ public class ItemController {
     ItemService itemService;
 
 
-    //Sube un nuevo item
+    //Sube un nuevo item que ahora devuleve un item
     @PostMapping("/item")
     public ResponseEntity<String> addItem(@RequestBody Item item) throws IOException {
         int result = itemService.insertItem(item);
