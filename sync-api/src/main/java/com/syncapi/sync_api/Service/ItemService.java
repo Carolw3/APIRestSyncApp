@@ -49,15 +49,10 @@ public class ItemService {
                 "insertItem",
                 "Usuari creat correctament" );
         }
-        if(result >= 1){
-            Long idItem = item.getId();
-            List<Item> insertadoEcontrado = itemRepository.findById(idItem);
-            Item item1 = insertadoEcontrado.get(0);
-            return item1;
-        }else{
-            return null;
-        }
+        return item;
     }
+
+    
     
     //Devuelve todos los items
     public List<Item>findAll() throws IOException {
