@@ -34,13 +34,13 @@ public class ItemController {
 
     //Sube un nuevo item que ahora devuleve un item
     @PostMapping("/item")
-    public ResponseEntity<String> addItem(@RequestBody Item item) throws IOException {
-        int result = itemService.insertItem(item);
+    public ResponseEntity<Item> addItem(@RequestBody Item item) throws IOException {
+        Item result = itemService.insertItem(item);
 
-        if(result > 0 ){
-            return ResponseEntity.status(HttpStatus.OK).body("El item ha sido creado correctamente: " + item.getTitulo().toString());
+        if(result != null){
+            return ResponseEntity.status(HttpStatus.OK).body(result);
         }else{
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ha avido un error al insertar el item");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
         
     }

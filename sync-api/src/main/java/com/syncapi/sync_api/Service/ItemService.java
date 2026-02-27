@@ -30,7 +30,7 @@ public class ItemService {
     @Autowired
     ItemRepository itemRepository;
     //Sube un nuevo item
-    public int insertItem(Item item) throws IOException {
+    public Item insertItem(Item item) throws IOException {
 
         itemLog.info(
                 "ItemService",
@@ -49,7 +49,14 @@ public class ItemService {
                 "insertItem",
                 "Usuari creat correctament" );
         }
-        return result;
+        if(result >= 1){
+            Long idItem = item.getId();
+            List<Item> insertadoEcontrado = itemRepository.findById(idItem);
+            Item item1 = insertadoEcontrado.get(0);
+            return item1;
+        }else{
+            return null;
+        }
     }
     
     //Devuelve todos los items
