@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.syncapi.sync_api.DTO.ItemRequestDTO;
+import com.syncapi.sync_api.DTO.ItemPerfilResponseDTO;
 import com.syncapi.sync_api.Model.Item;
 import com.syncapi.sync_api.Service.ItemService;
 
@@ -57,7 +57,18 @@ public class ItemController {
     
     }
 
-    //Devuelve el item por la id    
+    @GetMapping("/itemsPerfil/{idUser}")
+    public ResponseEntity<List<ItemPerfilResponseDTO>>getItemsByUserId(@PathVariable Long idUser) throws IOException {
+        List<ItemPerfilResponseDTO> llista = itemService.findByUserId(idUser);
+        if (llista.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }else{
+            return ResponseEntity.status(HttpStatus.OK).body(llista);
+        }
+    }
+    
+
+    //Devuelve el item por la id
     @GetMapping("/item/{id}") // Per exemple: --> http://localhost:8081/api/items/2 <--
     public ResponseEntity<Item> getUserById(@PathVariable Long id) throws IOException {
         

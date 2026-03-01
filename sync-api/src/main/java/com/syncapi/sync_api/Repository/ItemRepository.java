@@ -15,6 +15,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.syncapi.sync_api.DTO.ItemPerfilResponseDTO;
 import com.syncapi.sync_api.Log.ItemLog;
 import com.syncapi.sync_api.Model.Item;
 
@@ -45,44 +46,67 @@ public class ItemRepository {
             
             return item;
         }
-        
+
+    }
+
+    private static final class ItemPerfilResponseDTORowMapper implements RowMapper<ItemPerfilResponseDTO>{
+        @Override
+        public ItemPerfilResponseDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+            ItemPerfilResponseDTO itemPerfil = new ItemPerfilResponseDTO();
+            itemPerfil.setId(rs.getLong("id"));
+            itemPerfil.setIdUser(rs.getLong("idUser"));
+            itemPerfil.setTitulo(rs.getString("titulo"));
+            itemPerfil.setDescription(rs.getString("description"));
+            itemPerfil.setImagen_doc(rs.getString("imagen_doc"));
+            
+            return itemPerfil;
+        }
     }
 
     //Inserta un nou item a la base de dades
     public int insertItem(Item item){
 
-    String sql = """
-        INSERT INTO items(idUser, titulo, description, puntuacion, favoritos, categoria, onCreated, onUpdate)
-        VALUES (?,?,?,?,?,?,?,?)
-        """;
+        String sql = """
+            INSERT INTO items(idUser, titulo, description, puntuacion, favoritos, categoria, onCreated, onUpdate)
+            VALUES (?,?,?,?,?,?,?,?)
+            """;
 
-    LocalDateTime now = LocalDateTime.now();
-    Timestamp timestamp = Timestamp.valueOf(now);
+        LocalDateTime now = LocalDateTime.now();
+        Timestamp timestamp = Timestamp.valueOf(now);
 
-    KeyHolder keyHolder = new GeneratedKeyHolder();
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-    int devolver = jdbcTemplate.update(connection -> {
-        PreparedStatement ps = connection.prepareStatement(
-                sql,
-                Statement.RETURN_GENERATED_KEYS
-        );
+        int devolver = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                    sql,
+                    Statement.RETURN_GENERATED_KEYS
+            );
 
-        ps.setLong(1, item.getIdUser());
-        ps.setString(2, item.getTitulo());
-        ps.setString(3, item.getDescription());
-        ps.setDouble(4, item.getPuntuacion());
-        ps.setBoolean(5, item.isFavoritos());
-        ps.setString(6, item.getCategoria());
-        ps.setTimestamp(7, timestamp);
-        ps.setTimestamp(8, timestamp);
+            ps.setLong(1, item.getIdUser());
+            ps.setString(2, item.getTitulo());
+            ps.setString(3, item.getDescription());
+            ps.setDouble(4, item.getPuntuacion());
+            ps.setBoolean(5, item.isFavoritos());
+            ps.setString(6, item.getCategoria());
+            ps.setTimestamp(7, timestamp);
+            ps.setTimestamp(8, timestamp);
 
-        return ps;
-    }, keyHolder);
-    
-    item.setId(keyHolder.getKey().longValue());
+            return ps;
+        }, keyHolder);
         
-    return devolver;
-}
+        item.setId(keyHolder.getKey().longValue());
+            
+        return devolver;
+    }
+
+    public List<ItemPerfilResponseDTO>findByUserId(Long idUser){
+        String sql = "SELECT * FROM items WHERE idUser = ?";
+        try {
+            return jdbcTemplate.query(sql, new ItemPerfilResponseDTORowMapper(), idUser);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     //Devuelve un item segun el id
     public List<Item> findById(Long id){

@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.syncapi.sync_api.DTO.ItemPerfilResponseDTO;
 import com.syncapi.sync_api.Log.ItemLog;
 import com.syncapi.sync_api.Model.Item;
 import com.syncapi.sync_api.Repository.ItemRepository;
@@ -71,6 +72,25 @@ public class ItemService {
         }
 
         return llista;
+    }
+
+    public List<ItemPerfilResponseDTO>findByUserId(Long idUser) throws IOException{
+        List<ItemPerfilResponseDTO> llista = itemRepository.findByUserId(idUser);
+
+        if(llista.size() < 1){
+            itemLog.error(
+                "ItemService",
+                "findAll",
+                "No hay items registrados");
+        }else{
+            itemLog.info(
+                "ItemService",
+                "findAll",
+                "Consultando todos los items." );
+        }
+
+        return llista;
+
     }
 
     public List<Item> ordenAlfa() throws IOException{

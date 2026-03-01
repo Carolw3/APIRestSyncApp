@@ -10,4 +10,5 @@ public class SyncApiApplication {
 		SpringApplication.run(SyncApiApplication.class, args);
 	}
 
+
 }
