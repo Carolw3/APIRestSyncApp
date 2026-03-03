@@ -169,16 +169,29 @@ public class ItemService {
     }
 
     // Capa de service para poder borrar un item mediante un id que nos pase el Controller
-    public int deleteItemPerId(Long id) throws IOException{
-        int resulado = itemRepository.deleteItemPerId(id);
-        
-        if(resulado > 0){
-            itemLog.info("ItemService", "deleteOneItem", "Item con id " + id + " eliminado correctamente.");
-        }else{
-            itemLog.error("ItemService", "deleteOneItem", "Error al eliminar el item con id " + id + ".");
+    public Item deleteItemPerId(Long id) throws IOException {
+
+    List<Item> itemLista = itemRepository.findById(id);
+
+        if (itemLista == null || itemLista.isEmpty()) {
+            itemLog.error("ItemService", "deleteOneItem", 
+                "Item con id " + id + " no encontrado.");
+            return null; 
         }
 
-        return resulado;
+        Item unItem = itemLista.get(0);
+
+        int resultado = itemRepository.deleteItemPerId(id);
+
+        if (resultado > 0) {
+            itemLog.info("ItemService", "deleteOneItem", 
+                "Item con id " + id + " eliminado correctamente.");
+        } else {
+            itemLog.error("ItemService", "deleteOneItem", 
+                "Error al eliminar el item con id " + id + ".");
+        }
+
+        return unItem;
     }
     
     //Para subir la ruta de una imagen

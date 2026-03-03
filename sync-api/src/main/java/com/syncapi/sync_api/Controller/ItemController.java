@@ -120,13 +120,13 @@ public class ItemController {
 
     // Endpoint para borrar un item mediante la id
     @DeleteMapping("/item/{id}")
-    public ResponseEntity<String> deleteOneItem(@PathVariable long id) throws IOException{
-        int resultado = itemService.deleteItemPerId(id);
+    public ResponseEntity<Item> deleteOneItem(@PathVariable long id) throws IOException{
+        Item resultado = itemService.deleteItemPerId(id);
 
-        if(resultado > 0){
-            return ResponseEntity.status(HttpStatus.OK).body("Item con id " + id + " eliminado correctamente.");
+        if(resultado != null){
+            return ResponseEntity.status(HttpStatus.OK).body(resultado);
         }else{
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el item con id " + id + ".");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
