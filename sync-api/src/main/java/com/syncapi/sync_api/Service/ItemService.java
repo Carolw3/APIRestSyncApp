@@ -132,7 +132,7 @@ public class ItemService {
     }
 
     // capa de service para actualizar un item mediante una id
-    public int updatePerIdTitulo(Long id, String titulo) throws IOException{
+    public Item updatePerIdTitulo(Long id, String titulo) throws IOException{
 
         int resultado = itemRepository.updatePerIdTitulo(id, titulo);
 
@@ -141,10 +141,13 @@ public class ItemService {
         }else{
             itemLog.error("ItemService", "UpdatePerId", "Error al actualizar el item con id " + id + ".");
         }
-        return resultado;
+
+        List<Item> itemsActualizado = itemRepository.findById(id);
+        Item oneItem = itemsActualizado.get(0);
+        return oneItem;
     }
 
-    public int updatePerIdDescripcion(Long id, String descripcion) throws IOException{
+    public Item updatePerIdDescripcion(Long id, String descripcion) throws IOException{
 
         int resultado = itemRepository.updatePerIdDescripcion(id, descripcion);
         if(resultado > 0){
@@ -152,7 +155,10 @@ public class ItemService {
         }else{
             itemLog.error("ItemService", "UpdatePerId", "Error al actualizar el item con id " + id + ".");
         }
-        return resultado;
+
+        List<Item> itemsActualizado = itemRepository.findById(id);
+        Item oneItem = itemsActualizado.get(0);
+        return oneItem;
     }
 
     // capa de servie para poder borrar todos los elementos de item

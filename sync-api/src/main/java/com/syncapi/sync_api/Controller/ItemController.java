@@ -86,23 +86,23 @@ public class ItemController {
 
     // Endpoint para poder actualizar un item mediante la id
     @PatchMapping("/item/{id}/titulo")
-    public ResponseEntity<String> updatePorIdTitulo(@PathVariable long id, @RequestParam String titulo) throws IOException{
-        int resultado = itemService.updatePerIdTitulo(id, titulo);
+    public ResponseEntity<Item> updatePorIdTitulo(@PathVariable long id, @RequestParam String titulo) throws IOException{
+        Item resultado = itemService.updatePerIdTitulo(id, titulo);
         // Depende del resultado respondemos con un entity u otro
-        if(resultado > 0){
-            return ResponseEntity.status(HttpStatus.OK).body("Item con id " + id + " actualizado correctamente.");
+        if(resultado != null){
+            return ResponseEntity.status(HttpStatus.OK).body(resultado);
         }else{
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el item con id " + id + ".");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
     @PatchMapping("/item/{id}/descripcion")
-    public ResponseEntity<String> updatePorIdDescripcion(@PathVariable long id, @RequestParam String descripcion) throws IOException{
-        int resultado = itemService.updatePerIdDescripcion(id, descripcion);
+    public ResponseEntity<Item> updatePorIdDescripcion(@PathVariable long id, @RequestParam String descripcion) throws IOException{
+        Item resultado = itemService.updatePerIdDescripcion(id, descripcion);
         // Depende del resultado respondemos con un entity u otro
-        if(resultado > 0){
-            return ResponseEntity.status(HttpStatus.OK).body("Item con id " + id + " actualizado correctamente.");
+        if(resultado != null){
+            return ResponseEntity.status(HttpStatus.OK).body(resultado);
         }else{
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el item con id " + id + ".");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
